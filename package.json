@@ -1,8 +1,8 @@
 {
   "name": "vectorx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "2d and 3d vector using the same code",
-  "main": "js/main.js",
+  "main": "js/vector.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
