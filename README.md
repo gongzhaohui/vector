@@ -7,11 +7,13 @@ nearly all methods return themselve again so chaining methods together is more t
 example to invert a vector and add 3 to it
 
 ```
+//var Vector2 = require('vectorx').Vector2
+var Vector3 = require('vectorx').Vector3
+
 var myVector = new Vector3(10,5,2);
 var changedVecor = myVector.c().scale(-1).add(new Vector3(3,0,0))
 ```
 notice the .c() that method makes a copy of myVector otherwise myVector and changedVector wuld point to the same object.
-
 
 ### shared methods
 
