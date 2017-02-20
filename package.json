@@ -1,0 +1,24 @@
+{
+  "name": "vectorx",
+  "version": "1.0.0",
+  "description": "2d and 3d vector using the same code",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gvr37leo/vector.git"
+  },
+  "keywords": [
+    "vector",
+    "math",
+    "physics"
+  ],
+  "author": "Paul Boon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gvr37leo/vector/issues"
+  },
+  "homepage": "https://github.com/gvr37leo/vector#readme"
+}

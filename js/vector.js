@@ -78,6 +78,12 @@ class Vector2 extends Vector{
         this.dimensions = 2;
     }
 
+    draw(ctxt){
+        var size = 10;
+        var halfsize = size / 2
+        ctxt.fillRect(this.x - halfsize,this.y - halfsize,size,size)
+    }
+
     get(i){
         switch(i){
             case 1: return this.y;
@@ -134,4 +140,9 @@ class Vector3 extends Vector{
                 this.x= val;
         }
     }
+}
+
+module.exports = {
+    Vector2,
+    Vector3,
 }
