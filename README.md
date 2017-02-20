@@ -45,7 +45,8 @@ calls the callback as many times as the vector has dimensions.
 loop(callback(vector))
 calls the callback once with each possible combination of the values.
 very useful with 2d vectors and 2d arrays so you dont have to write that nested for loop.
-replaces this code construct;
+replaces this code construct
+
 for(int x = 0; x < vector.x; x++){
     for(int y = 0; y < vector.y; y++){
         //some code that can now be replaced with the callback
