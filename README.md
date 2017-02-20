@@ -8,8 +8,10 @@ example to invert a vector and add 3 to it
 
 ```
 var myVector = new Vector3(10,5,2);
-var changedVecor = myVector.scale(-1).add(new Vector3(3,0,0))
+var changedVecor = myVector.c().scale(-1).add(new Vector3(3,0,0))
 ```
+notice the .c() that method makes a copy of myVector otherwise myVector and changedVector wuld point to the same object.
+
 
 ### shared methods
 
