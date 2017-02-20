@@ -62,11 +62,6 @@ class Vector{
         for(var i = 0; i < this.dimensions;i++)callback(i);
         return this;
     }
-
-    loop(callback){//wip
-        
-    }
-
 }
 
 class Vector2 extends Vector{
@@ -98,6 +93,14 @@ class Vector2 extends Vector{
                 break;
             default:
                 this.x= val;
+        }
+    }
+
+    loop(callback){//here till moved to vector
+        for(var x = 0; x < this.x; x++){
+            for(var y = 0; y < this.y; y++){
+                callback(new Vector2(x, y));
+            }
         }
     }
 }
@@ -138,6 +141,16 @@ class Vector3 extends Vector{
                 break;
             default:
                 this.x= val;
+        }
+    }
+
+    loop(callback){//here till moved to vector
+        for(var x = 0; x < this.x; x++){
+            for(var y = 0; y < this.y; y++){
+                for(var z = 0; z < this.z; z++){
+                    callback(new Vector2(x, y, z));
+                }
+            }
         }
     }
 }
