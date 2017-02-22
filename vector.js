@@ -105,12 +105,10 @@ class Vector2 extends Vector{
     }
 }
 
-class Vector3 extends Vector{
+class Vector3 extends Vector2{
 
     constructor(x,y,z){
-        super();
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.z = z;
         this.dimensions = 3;
     }
@@ -124,31 +122,23 @@ class Vector3 extends Vector{
     }
 
     get(i){
-        switch(i){
-            case 1: return this.y;
-            case 2: return this.z;
-            default: return this.x;
-        }
+        if(i == 2)return z;
+        super.get(i)
     }
 
     set(i, val){
-        switch(i){
-            case 1:
-                this.y = val;
-                break;
-            case 2:
-                this.z = val;
-                break;
-            default:
-                this.x= val;
+        if(i == 2){
+            this.z = val;
+            return;
         }
+        super.set(i, val)
     }
 
     loop(callback){//here till moved to vector
         for(var x = 0; x < this.x; x++){
             for(var y = 0; y < this.y; y++){
                 for(var z = 0; z < this.z; z++){
-                    callback(new Vector2(x, y, z));
+                    callback(new Vector3(x, y, z));
                 }
             }
         }
