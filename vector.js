@@ -123,7 +123,7 @@ class Vector3 extends Vector2{
 
     get(i){
         if(i == 2)return z;
-        super.get(i)
+        return super.get(i)
     }
 
     set(i, val){
