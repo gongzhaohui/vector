@@ -63,7 +63,7 @@ with this
 return this.iterate((i) => console.log(this.get(i)))
 ```
 
-`loop(callback(vector))`  
+`loop(callback(array))`  
 calls the callback once with each possible combination of the values.
 very useful with 2d vectors and 2d arrays so you dont have to write that nested for loop.
 replaces this code construct
@@ -77,8 +77,8 @@ for(int x = 0; x < vector.x; x++){
 ```
 becomes
 ```
-myvector.loop((vector) => {
-    console.log(`x:${vector.x}, y:${vector.y}`)
+myvector.loop((array) => {
+    console.log(`x:${array[0]}, y:${array[1]}`)
 })
 ```
 
@@ -89,6 +89,12 @@ very useful in combination with iterate
 `set(i, value)`  
 sets the corresponding value of the vector just like get and sets it to the passed in value
 very useful in combination with iterate
+
+`toArray()`
+returns an the vector in array form
+
+`static fromArray()`
+turns an array into a vector
 
 ### 2d
 `draw(2DcanvasContext)`  

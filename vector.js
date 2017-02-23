@@ -62,6 +62,35 @@ class Vector{
         for(var i = 0; i < this.dimensions;i++)callback(i);
         return this;
     }
+
+    loop(callback){
+        var counters = new Array(this.dimensions)
+        callback(counters)
+        var i = 0;
+        outerLoop:
+        while (true) {
+            while(counters[i] == this.get(i)) {
+                counters[i] = 0;
+                i++;
+                if (i == counters.Length) break outerLoop;
+            }
+            counters[i]++;
+            callback(counters)
+            i = 0;
+        }
+    }
+
+    toArray(){
+        var array = new Array(this.dimensions)
+        this.iterate((i) => array[i] = this.get(i))
+        return array;
+    }
+
+    static fromArray(array){
+        var v = Vector.construct(array.length);
+        v.iterate((i) => v.set(i, array[i]));
+        return v;
+    }
 }
 
 class Vector2 extends Vector{
@@ -95,14 +124,6 @@ class Vector2 extends Vector{
                 this.x= val;
         }
     }
-
-    loop(callback){//here till moved to vector
-        for(var x = 0; x < this.x; x++){
-            for(var y = 0; y < this.y; y++){
-                callback(new Vector2(x, y));
-            }
-        }
-    }
 }
 
 class Vector3 extends Vector2{
@@ -132,16 +153,6 @@ class Vector3 extends Vector2{
             return;
         }
         super.set(i, val)
-    }
-
-    loop(callback){//here till moved to vector
-        for(var x = 0; x < this.x; x++){
-            for(var y = 0; y < this.y; y++){
-                for(var z = 0; z < this.z; z++){
-                    callback(new Vector3(x, y, z));
-                }
-            }
-        }
     }
 }
 
