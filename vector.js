@@ -97,8 +97,8 @@ class Vector2 extends Vector{
 
     constructor(x,y){
         super();
-        this.x = x;
-        this.y = y;
+        this.x = x || 0;
+        this.y = y || 0;
         this.dimensions = 2;
     }
 
@@ -130,7 +130,7 @@ class Vector3 extends Vector2{
 
     constructor(x,y,z){
         super(x, y);
-        this.z = z;
+        this.z = z || 0;
         this.dimensions = 3;
     }
 

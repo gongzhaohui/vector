@@ -90,10 +90,10 @@ very useful in combination with iterate
 sets the corresponding value of the vector just like get and sets it to the passed in value
 very useful in combination with iterate
 
-`toArray()`
+`toArray()`  
 returns an the vector in array form
 
-`static fromArray()`
+`static fromArray(array)`  
 turns an array into a vector
 
 ### 2d
