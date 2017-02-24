@@ -64,7 +64,7 @@ class Vector{
     }
 
     loop(callback){
-        var counters = new Array(this.dimensions)
+        var counters = new Array(this.dimensions).fill(0)
         callback(counters)
         var i = 0;
         outerLoop:
@@ -72,7 +72,7 @@ class Vector{
             while(counters[i] == this.get(i)) {
                 counters[i] = 0;
                 i++;
-                if (i == counters.Length) break outerLoop;
+                if (i == counters.length) break outerLoop;
             }
             counters[i]++;
             callback(counters)
