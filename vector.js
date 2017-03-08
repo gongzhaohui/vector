@@ -155,8 +155,3 @@ class Vector3 extends Vector2{
         super.set(i, val)
     }
 }
-
-module.exports = {
-    Vector2,
-    Vector3,
-}
