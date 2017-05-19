@@ -23,6 +23,10 @@ class Vector{
         return this.scale(1 / this.length())
     }
 
+    dist(v){
+        return v.c().sub(this).length()
+    }
+
     length(){
         var sum = 0;
         this.iterate((i) => sum += Math.pow(this.get(i), 2))
