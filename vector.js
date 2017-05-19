@@ -25,7 +25,7 @@ class Vector{
 
     length(){
         var sum = 0;
-        this.iterate((i) => sum += Math.pow(this.get(i)))
+        this.iterate((i) => sum += Math.pow(this.get(i), 2))
         return Math.pow(sum, 0.5)
     }
 
