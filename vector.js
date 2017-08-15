@@ -140,14 +140,14 @@ class Vector3 extends Vector2{
 
     cross(v){
         return new Vector3(
-                y * v.z - z * v.y,
-                z * v.x - x * v.z,
-                x * v.y - y * v.x
+                this.y * v.z - this.z * v.y,
+                this.z * v.x - this.x * v.z,
+                this.x * v.y - this.y * v.x
         );
     }
 
     get(i){
-        if(i == 2)return z;
+        if(i == 2)return this.z;
         return super.get(i)
     }
 
