@@ -1,161 +1,107 @@
-class Vector{
-
-    static construct(dimensions){
-        switch(dimensions){
-            case 3:return new Vector3(0,0,0);
-            default:return new Vector2(0,0);
+class Vector {
+    constructor(size) {
+        this.vals = new Array(size);
+    }
+    add(v) {
+        for (var i = 0; i < this.vals.length; i++) {
+            this.vals[i] += v.vals[i];
         }
-    }
-
-    add(v){
-        return this.iterate((i) => this.set(i, this.get(i) + v.get(i)))
-    }
-
-    sub(v){
-        return this.iterate((i) => this.set(i, this.get(i) - v.get(i)))
-    }
-
-    scale(s){
-        return this.iterate((i) => this.set(i, this.get(i) * s))
-    }
-
-    normalize(){
-        return this.scale(1 / this.length())
-    }
-
-    dist(v){
-        return v.c().sub(this).length()
-    }
-
-    length(){
-        var sum = 0;
-        this.iterate((i) => sum += Math.pow(this.get(i), 2))
-        return Math.pow(sum, 0.5)
-    }
-
-    lerp(v, weight){
-        return this.c().add(v.c().sub(this).scale(weight));
-    }
-
-    project(v){
-        return this.c().scale(this.dot(v) / this.dot(this));
-    }
-
-    dot(v){
-        var sum = 0;
-        this.iterate((i) => sum += this.get(i) * v.get(i));
-        return sum;
-    }
-
-    c(){
-        var c = Vector.construct(this.dimensions);
-        return c.iterate((i) => c.set(i, this.get(i)))
-    }
-
-    equals(v){
-        var equals = true;
-        this.iterate((i) => {if(v.get(i) != this.get(i))equals = false})
-        return equals
-    }
-
-    overwrite(v){
-        return this.iterate((i) => this.set(i, v.get(i)))
-    }
-
-    iterate(callback){
-        for(var i = 0; i < this.dimensions;i++)callback(i);
         return this;
     }
-
-    loop(callback){
-        var counters = new Array(this.dimensions).fill(0)
-        callback(counters)
-        var i = 0;
-        outerLoop:
-        while (true) {
-            while(counters[i] == this.get(i)) {
-                counters[i] = 0;
-                i++;
-                if (i == counters.length) break outerLoop;
-            }
-            counters[i]++;
-            callback(counters)
-            i = 0;
+    sub(v) {
+        for (var i = 0; i < this.vals.length; i++) {
+            this.vals[i] += v.vals[i];
         }
+        return this;
     }
-
-    toArray(){
-        var array = new Array(this.dimensions)
-        this.iterate((i) => array[i] = this.get(i))
-        return array;
+    scale(s) {
+        for (var i = 0; i < this.vals.length; i++) {
+            this.vals[i] *= s;
+        }
+        return this;
     }
-
-    static fromArray(array){
-        var v = Vector.construct(array.length);
-        v.iterate((i) => v.set(i, array[i]));
-        return v;
+    length() {
+        var sum = 0;
+        for (var i = 0; i < this.vals.length; i++) {
+            sum += Math.pow(this.vals[i], 2);
+        }
+        return Math.sqrt(sum);
+    }
+    normalize() {
+        return this.scale(1 / this.length());
+    }
+    to(v) {
+        return v.c().sub(this);
+    }
+    lerp(v, weight) {
+        return this.c().add(this.to(v).scale(weight));
+    }
+    c() {
+        return new Vector(this.vals.length).overwrite(this);
+    }
+    overwrite(v) {
+        for (var i = 0; i < this.vals.length; i++) {
+            this.vals[i] = v.vals[i];
+        }
+        return this;
+    }
+    dot(v) {
+        var sum = 0;
+        for (var i = 0; i < this.vals.length; i++) {
+            sum += this.vals[i] * v.vals[i];
+        }
+        return sum;
+    }
+    loop() {
+    }
+    incr() {
+    }
+    project(v) {
+        return v.c().scale(this.dot(v) / v.dot(v));
+    }
+    get(i) {
+        return this.vals[i];
+    }
+    set(i, val) {
+        this.vals[i] = val;
+    }
+    get x() {
+        return this.vals[0];
+    }
+    get y() {
+        return this.vals[1];
+    }
+    get z() {
+        return this.vals[2];
+    }
+    set x(val) {
+        this.vals[0] = val;
+    }
+    set y(val) {
+        this.vals[1] = val;
+    }
+    set z(val) {
+        this.vals[2] = val;
     }
 }
-
-class Vector2 extends Vector{
-
-    constructor(x,y){
-        super();
-        this.x = x || 0;
-        this.y = y || 0;
-        this.dimensions = 2;
-    }
-
-    draw(ctxt){
-        var size = 10;
-        var halfsize = size / 2
-        ctxt.fillRect(this.x - halfsize,this.y - halfsize,size,size)
-    }
-
-    get(i){
-        switch(i){
-            case 1: return this.y;
-            default: return this.x;
-        }
-    }
-
-    set(i, val){
-        switch(i){
-            case 1:
-                this.y = val;
-                break;
-            default:
-                this.x= val;
-        }
+class Vector2 extends Vector {
+    constructor(x, y) {
+        super(2);
+        this.x = x;
+        this.y = y;
     }
 }
-
-class Vector3 extends Vector2{
-
-    constructor(x,y,z){
-        super(x, y);
-        this.z = z || 0;
-        this.dimensions = 3;
+class Vector3 extends Vector {
+    constructor(x, y, z) {
+        super(3);
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
-
-    cross(v){
-        return new Vector3(
-                this.y * v.z - this.z * v.y,
-                this.z * v.x - this.x * v.z,
-                this.x * v.y - this.y * v.x
-        );
-    }
-
-    get(i){
-        if(i == 2)return this.z;
-        return super.get(i)
-    }
-
-    set(i, val){
-        if(i == 2){
-            this.z = val;
-            return;
-        }
-        super.set(i, val)
+    cross(v) {
+        var x = this.y * v.z - this.z * v.y;
+        var y = this.z * v.x - this.x * v.z;
+        var z = this.x * v.y - this.y * v.x;
+        return new Vector3(x, y, z);
     }
 }
