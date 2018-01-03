@@ -67,12 +67,37 @@ class Vector{
 
     
 
-    loop():void{
-        
+    loop(callback: (vector: Vector) => void): void {
+        var counter = new Vector(this.vals.length)
+        counter.vals.fill(0)
+
+        var allzeroes = true
+        for (var i = 0; i < this.vals.length; i++) {
+            if (this.vals[i] != 0) {
+                allzeroes = false
+            }
+        }
+        if (allzeroes) {
+            return
+        }
+
+        callback(counter)
+        while (!this.incr(counter)) {
+            callback(counter)
+        }
     }
 
-    private incr(){
+    private incr(v: Vector): boolean {//boolean signifies overflow
 
+        for (var i = 0; i < v.vals.length; i++) {
+            v.vals[i]++
+            if (v.vals[i] >= this.vals[i]) {
+                v.vals[i] = 0
+            } else {
+                return false
+            }
+        }
+        return true
     }
             
     project(v:Vector):Vector{
