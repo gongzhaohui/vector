@@ -10,7 +10,7 @@ class Vector {
     }
     sub(v) {
         for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] += v.vals[i];
+            this.vals[i] -= v.vals[i];
         }
         return this;
     }
@@ -108,6 +108,12 @@ class Vector {
     set z(val) {
         this.vals[2] = val;
     }
+    cross(v) {
+        var x = this.y * v.z - this.z * v.y;
+        var y = this.z * v.x - this.x * v.z;
+        var z = this.x * v.y - this.y * v.x;
+        return new Vector3(x, y, z);
+    }
 }
 class Vector2 extends Vector {
     constructor(x, y) {
@@ -122,11 +128,5 @@ class Vector3 extends Vector {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-    cross(v) {
-        var x = this.y * v.z - this.z * v.y;
-        var y = this.z * v.x - this.x * v.z;
-        var z = this.x * v.y - this.y * v.x;
-        return new Vector3(x, y, z);
     }
 }
