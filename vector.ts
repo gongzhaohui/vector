@@ -65,8 +65,6 @@ class Vector{
         return sum
     }
 
-    
-
     loop(callback: (vector: Vector) => void): void {
         var counter = new Vector(this.vals.length)
         counter.vals.fill(0)
@@ -146,6 +144,7 @@ class Vector{
         }
         return this
     }
+    
     cross(v:Vector):Vector3{
         var x = this.y * v.z - this.z * v.y
         var y = this.z * v.x - this.x * v.z
