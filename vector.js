@@ -83,6 +83,15 @@ class Vector {
     set z(val) {
         this.vals[2] = val;
     }
+    mul(other) {
+        return this.map((arr, i) => arr[i] *= other.vals[i]);
+    }
+    map(callback) {
+        for (var i = 0; i < this.vals.length; i++) {
+            callback(this.vals, i);
+        }
+        return this;
+    }
 }
 class Vector2 extends Vector {
     constructor(x, y) {

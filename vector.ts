@@ -110,6 +110,17 @@ class Vector{
     set z(val){
         this.vals[2] = val
     }
+
+    mul(other:Vector):Vector{
+        return this.map((arr,i) => arr[i] *= other.vals[i])
+    }
+
+    map(callback:(arr:number[],i:number) => void){
+        for(var i = 0; i < this.vals.length; i++){
+            callback(this.vals,i)
+        }
+        return this
+    }
 }
 
 class Vector2 extends Vector{
