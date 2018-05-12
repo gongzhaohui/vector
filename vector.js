@@ -10,7 +10,7 @@ class Vector {
     }
     sub(v) {
         for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] += v.vals[i];
+            this.vals[i] -= v.vals[i];
         }
         return this;
     }
@@ -52,9 +52,34 @@ class Vector {
         }
         return sum;
     }
-    loop() {
+    loop(callback) {
+        var counter = new Vector(this.vals.length);
+        counter.vals.fill(0);
+        var allzeroes = true;
+        for (var i = 0; i < this.vals.length; i++) {
+            if (this.vals[i] != 0) {
+                allzeroes = false;
+            }
+        }
+        if (allzeroes) {
+            return;
+        }
+        callback(counter);
+        while (!this.incr(counter)) {
+            callback(counter);
+        }
     }
-    incr() {
+    incr(v) {
+        for (var i = 0; i < v.vals.length; i++) {
+            v.vals[i]++;
+            if (v.vals[i] >= this.vals[i]) {
+                v.vals[i] = 0;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
     }
     project(v) {
         return v.c().scale(this.dot(v) / v.dot(v));
@@ -92,6 +117,12 @@ class Vector {
         }
         return this;
     }
+    cross(v) {
+        var x = this.y * v.z - this.z * v.y;
+        var y = this.z * v.x - this.x * v.z;
+        var z = this.x * v.y - this.y * v.x;
+        return new Vector3(x, y, z);
+    }
 }
 class Vector2 extends Vector {
     constructor(x, y) {
@@ -106,11 +137,5 @@ class Vector3 extends Vector {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-    cross(v) {
-        var x = this.y * v.z - this.z * v.y;
-        var y = this.z * v.x - this.x * v.z;
-        var z = this.x * v.y - this.y * v.x;
-        return new Vector3(x, y, z);
     }
 }

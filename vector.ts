@@ -14,7 +14,7 @@ class Vector{
 
     sub(v:Vector):Vector{
         for(var i = 0; i < this.vals.length; i++){
-            this.vals[i] += v.vals[i]
+            this.vals[i] -= v.vals[i]
         }
         return this
     }
@@ -67,12 +67,37 @@ class Vector{
 
     
 
-    loop():void{
-        
+    loop(callback: (vector: Vector) => void): void {
+        var counter = new Vector(this.vals.length)
+        counter.vals.fill(0)
+
+        var allzeroes = true
+        for (var i = 0; i < this.vals.length; i++) {
+            if (this.vals[i] != 0) {
+                allzeroes = false
+            }
+        }
+        if (allzeroes) {
+            return
+        }
+
+        callback(counter)
+        while (!this.incr(counter)) {
+            callback(counter)
+        }
     }
 
-    private incr(){
+    private incr(v: Vector): boolean {//boolean signifies overflow
 
+        for (var i = 0; i < v.vals.length; i++) {
+            v.vals[i]++
+            if (v.vals[i] >= this.vals[i]) {
+                v.vals[i] = 0
+            } else {
+                return false
+            }
+        }
+        return true
     }
             
     project(v:Vector):Vector{
@@ -121,6 +146,12 @@ class Vector{
         }
         return this
     }
+    cross(v:Vector):Vector3{
+        var x = this.y * v.z - this.z * v.y
+        var y = this.z * v.x - this.x * v.z
+        var z = this.x * v.y - this.y * v.x
+        return new Vector3(x,y,z)
+    }
 }
 
 class Vector2 extends Vector{
@@ -137,12 +168,5 @@ class Vector3 extends Vector{
         this.x = x
         this.y = y
         this.z = z
-    }
-
-    cross(v:Vector):Vector3{
-        var x = this.y * v.z - this.z * v.y
-        var y = this.z * v.x - this.x * v.z
-        var z = this.x * v.y - this.y * v.x
-        return new Vector3(x,y,z)
     }
 }
