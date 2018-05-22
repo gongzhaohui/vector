@@ -1,36 +1,36 @@
 class Vector{
     vals:number[]
 
-    protected constructor(size:number){
+    constructor(size:number){
         this.vals = new Array(size)
     }
 
-    add(v:Vector):Vector{
+    map(callback:(arr:number[],i:number) => void){
         for(var i = 0; i < this.vals.length; i++){
-            this.vals[i] += v.vals[i]
+            callback(this.vals,i)
         }
         return this
+    }
+
+    mul(v:Vector):Vector{
+        return this.map((arr,i) => arr[i] *= v.vals[i])
+    }
+
+    add(v:Vector):Vector{
+        return this.map((arr,i) => arr[i] += v.vals[i])
     }
 
     sub(v:Vector):Vector{
-        for(var i = 0; i < this.vals.length; i++){
-            this.vals[i] -= v.vals[i]
-        }
-        return this
+        return this.map((arr,i) => arr[i] -= v.vals[i])
     }
 
     scale(s:number):Vector{
-        for(var i = 0; i < this.vals.length; i++){
-            this.vals[i] *= s
-        }
-        return this
+        return this.map((arr,i) => arr[i] *= s)
     }
 
     length():number{
         var sum = 0
-        for(var i = 0; i < this.vals.length; i++){
-            sum += Math.pow(this.vals[i],2)
-        }
+        this.map((arr,i) => sum += arr[i])
         return Math.sqrt(sum)
     }
 
@@ -51,51 +51,52 @@ class Vector{
     }
 
     overwrite(v:Vector):Vector{
-        for(var i = 0; i < this.vals.length; i++){
-            this.vals[i] = v.vals[i]
-        }
-        return this
+        return this.map((arr,i) => arr[i] = v.vals[i])
     }
 
     dot(v:Vector):number{
         var sum = 0
-        for(var i = 0; i < this.vals.length; i++){
-            sum += this.vals[i] * v.vals[i]
-        }
+        this.map((arr,i) => sum += arr[i] * v.vals[i])
         return sum
     }
 
     loop(callback: (vector: Vector) => void): void {
-        var counter = new Vector(this.vals.length)
+        var counter = new Vector(this.vals.length);
         counter.vals.fill(0)
 
-        var allzeroes = true
-        for (var i = 0; i < this.vals.length; i++) {
-            if (this.vals[i] != 0) {
-                allzeroes = false
-            }
-        }
-        if (allzeroes) {
-            return
-        }
-
-        callback(counter)
-        while (!this.incr(counter)) {
+        while(counter.compare(this) == -1){
             callback(counter)
+            if(counter.incr(this)){
+                break;
+            }
         }
     }
 
-    private incr(v: Vector): boolean {//boolean signifies overflow
+    compare(v:Vector):number{
+        for (var i = this.vals.length - 1; i >= 0; i--) {
+			if (this.vals[i] == v.vals[i]) {
+				return 0;
+			}
+			else if (this.vals[i] < v.vals[i]) {
+				continue;
+			}
+			else {
+				return 1;
+			}
+		}
+		return -1;
+    }
 
-        for (var i = 0; i < v.vals.length; i++) {
-            v.vals[i]++
-            if (v.vals[i] >= this.vals[i]) {
-                v.vals[i] = 0
-            } else {
-                return false
-            }
-        }
-        return true
+    incr(comparedTo: Vector): boolean {
+        for(var i = 0; i < this.vals.length; i++){
+			if((this.vals[i] + 1) < comparedTo.vals[i]){
+				this.vals[i]++;
+				return false;
+			}else{
+				this.vals[i] = 0;
+			}
+		}
+		return true;
     }
             
     project(v:Vector):Vector{
@@ -134,16 +135,6 @@ class Vector{
         this.vals[2] = val
     }
 
-    mul(other:Vector):Vector{
-        return this.map((arr,i) => arr[i] *= other.vals[i])
-    }
-
-    map(callback:(arr:number[],i:number) => void){
-        for(var i = 0; i < this.vals.length; i++){
-            callback(this.vals,i)
-        }
-        return this
-    }
     
     cross(v:Vector):Vector3{
         var x = this.y * v.z - this.z * v.y
