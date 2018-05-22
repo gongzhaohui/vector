@@ -74,11 +74,11 @@ class Vector{
 
     compare(v:Vector):number{
         for (var i = this.vals.length - 1; i >= 0; i--) {
-			if (this.vals[i] == v.vals[i]) {
-				return 0;
-			}
-			else if (this.vals[i] < v.vals[i]) {
+			if (this.vals[i] < v.vals[i]) {
 				continue;
+			}
+			else if (this.vals[i] == v.vals[i]) {
+                return 0;
 			}
 			else {
 				return 1;
