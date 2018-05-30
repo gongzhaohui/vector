@@ -2,30 +2,28 @@ class Vector {
     constructor(size) {
         this.vals = new Array(size);
     }
-    add(v) {
+    map(callback) {
         for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] += v.vals[i];
+            callback(this.vals, i);
         }
         return this;
+    }
+    mul(v) {
+        return this.map((arr, i) => arr[i] *= v.vals[i]);
+    }
+    add(v) {
+        return this.map((arr, i) => arr[i] += v.vals[i]);
     }
     sub(v) {
-        for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] -= v.vals[i];
-        }
-        return this;
+        return this.map((arr, i) => arr[i] -= v.vals[i]);
     }
     scale(s) {
-        for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] *= s;
-        }
-        return this;
+        return this.map((arr, i) => arr[i] *= s);
     }
     length() {
         var sum = 0;
-        for (var i = 0; i < this.vals.length; i++) {
-            sum += Math.pow(this.vals[i], 2);
-        }
-        return Math.sqrt(sum);
+        this.map((arr, i) => sum += arr[i] * arr[i]);
+        return Math.pow(sum, 0.5);
     }
     normalize() {
         return this.scale(1 / this.length());
@@ -40,43 +38,45 @@ class Vector {
         return new Vector(this.vals.length).overwrite(this);
     }
     overwrite(v) {
-        for (var i = 0; i < this.vals.length; i++) {
-            this.vals[i] = v.vals[i];
-        }
-        return this;
+        return this.map((arr, i) => arr[i] = v.vals[i]);
     }
     dot(v) {
         var sum = 0;
-        for (var i = 0; i < this.vals.length; i++) {
-            sum += this.vals[i] * v.vals[i];
-        }
+        this.map((arr, i) => sum += arr[i] * v.vals[i]);
         return sum;
     }
     loop(callback) {
         var counter = new Vector(this.vals.length);
         counter.vals.fill(0);
-        var allzeroes = true;
-        for (var i = 0; i < this.vals.length; i++) {
-            if (this.vals[i] != 0) {
-                allzeroes = false;
-            }
-        }
-        if (allzeroes) {
-            return;
-        }
-        callback(counter);
-        while (!this.incr(counter)) {
+        while (counter.compare(this) == -1) {
             callback(counter);
+            if (counter.incr(this)) {
+                break;
+            }
         }
     }
-    incr(v) {
-        for (var i = 0; i < v.vals.length; i++) {
-            v.vals[i]++;
-            if (v.vals[i] >= this.vals[i]) {
-                v.vals[i] = 0;
+    compare(v) {
+        for (var i = this.vals.length - 1; i >= 0; i--) {
+            if (this.vals[i] < v.vals[i]) {
+                continue;
+            }
+            else if (this.vals[i] == v.vals[i]) {
+                return 0;
             }
             else {
+                return 1;
+            }
+        }
+        return -1;
+    }
+    incr(comparedTo) {
+        for (var i = 0; i < this.vals.length; i++) {
+            if ((this.vals[i] + 1) < comparedTo.vals[i]) {
+                this.vals[i]++;
                 return false;
+            }
+            else {
+                this.vals[i] = 0;
             }
         }
         return true;
@@ -108,14 +108,10 @@ class Vector {
     set z(val) {
         this.vals[2] = val;
     }
-    mul(other) {
-        return this.map((arr, i) => arr[i] *= other.vals[i]);
-    }
-    map(callback) {
-        for (var i = 0; i < this.vals.length; i++) {
-            callback(this.vals, i);
-        }
-        return this;
+    draw(ctxt) {
+        var width = 10;
+        var halfwidth = width / 2;
+        ctxt.fillRect(this.x - halfwidth, this.y - halfwidth, width, width);
     }
     cross(v) {
         var x = this.y * v.z - this.z * v.y;
