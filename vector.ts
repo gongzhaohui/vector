@@ -30,8 +30,8 @@ class Vector{
 
     length():number{
         var sum = 0
-        this.map((arr,i) => sum += arr[i])
-        return Math.sqrt(sum)
+        this.map((arr,i) => sum += arr[i] * arr[i])
+        return Math.pow(sum,0.5)
     }
 
     normalize():Vector{
@@ -135,6 +135,11 @@ class Vector{
         this.vals[2] = val
     }
 
+    draw(ctxt:CanvasRenderingContext2D){
+        var width = 10
+        var halfwidth = width / 2
+        ctxt.fillRect(this.x - halfwidth,this.y - halfwidth,width,width)
+    }
     
     cross(v:Vector):Vector3{
         var x = this.y * v.z - this.z * v.y

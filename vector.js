@@ -22,8 +22,8 @@ class Vector {
     }
     length() {
         var sum = 0;
-        this.map((arr, i) => sum += arr[i]);
-        return Math.sqrt(sum);
+        this.map((arr, i) => sum += arr[i] * arr[i]);
+        return Math.pow(sum, 0.5);
     }
     normalize() {
         return this.scale(1 / this.length());
@@ -107,6 +107,11 @@ class Vector {
     }
     set z(val) {
         this.vals[2] = val;
+    }
+    draw(ctxt) {
+        var width = 10;
+        var halfwidth = width / 2;
+        ctxt.fillRect(this.x - halfwidth, this.y - halfwidth, width, width);
     }
     cross(v) {
         var x = this.y * v.z - this.z * v.y;
