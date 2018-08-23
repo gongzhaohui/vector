@@ -160,3 +160,26 @@ class Vector3 extends Vector{
         this.z = z
     }
 }
+
+(window as any).devtoolsFormatters = [
+    {
+        header: function(obj, config){
+            if(!(obj instanceof Vector)){
+                return null
+            }
+
+            if((obj instanceof Vector2)){
+                return ["div",{style:""}, `x:${obj.x} y:${obj.y}`]
+            }
+
+            if((obj instanceof Vector3)){
+                return ["div",{style:""}, `x:${obj.x} y:${obj.y} z:${obj.z}`]
+            }
+            
+        },
+
+        hasBody: function(obj){
+            return false
+        },
+    }
+]
