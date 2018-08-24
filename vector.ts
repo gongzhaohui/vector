@@ -47,7 +47,7 @@ class Vector{
     }
 
     c():Vector{
-        return new Vector(this.vals.length).overwrite(this)
+        return new Vector().overwrite(this)
     }
 
     overwrite(v:Vector):Vector{
