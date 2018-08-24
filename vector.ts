@@ -1,8 +1,8 @@
 class Vector{
     vals:number[]
 
-    constructor(size:number){
-        this.vals = new Array(size)
+    constructor(...vals:number[]){
+        this.vals = vals
     }
 
     map(callback:(arr:number[],i:number) => void){
@@ -47,7 +47,7 @@ class Vector{
     }
 
     c():Vector{
-        return new Vector(this.vals.length).overwrite(this)
+        return Vector.fromArray(this.vals.slice())
     }
 
     overwrite(v:Vector):Vector{
@@ -141,27 +141,40 @@ class Vector{
         ctxt.fillRect(this.x - halfwidth,this.y - halfwidth,width,width)
     }
     
-    cross(v:Vector):Vector3{
+    cross(v:Vector):Vector{
         var x = this.y * v.z - this.z * v.y
         var y = this.z * v.x - this.x * v.z
         var z = this.x * v.y - this.y * v.x
-        return new Vector3(x,y,z)
+        return new Vector(x,y,z)
+    }
+
+    static fromArray(vals:number[]){
+        var x = new Vector()
+        x.vals = vals
+        return x
     }
 }
 
-class Vector2 extends Vector{
-    constructor(x,y){
-        super(2)
-        this.x = x
-        this.y = y
-    }
-}
 
-class Vector3 extends Vector{
-    constructor(x,y,z){
-        super(3)
-        this.x = x
-        this.y = y
-        this.z = z
+(window as any).devtoolsFormatters = [
+    {
+        header: function(obj, config){
+            if(!(obj instanceof Vector)){
+                return null
+            }
+
+            if((obj.vals.length == 2)){
+                return ["div",{style:""}, `x:${obj.x} y:${obj.y}`]
+            }
+
+            if((obj.vals.length == 3)){
+                return ["div",{style:""}, `x:${obj.x} y:${obj.y} z:${obj.z}`]
+            }
+            
+        },
+
+        hasBody: function(obj){
+            return false
+        },
     }
-}
+]
