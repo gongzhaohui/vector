@@ -1,6 +1,6 @@
 {
   "name": "vectorx",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "2d and 3d vector using the same code",
   "main": "vector.js",
   "scripts": {
