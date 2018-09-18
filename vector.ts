@@ -47,7 +47,7 @@ class Vector{
     }
 
     c():Vector{
-        return new Vector().overwrite(this)
+        return Vector.fromArray(this.vals.slice())
     }
 
     overwrite(v:Vector):Vector{
@@ -61,7 +61,7 @@ class Vector{
     }
 
     loop(callback: (vector: Vector) => void): void {
-        var counter = new Vector(this.vals.length);
+        var counter = this.c()
         counter.vals.fill(0)
 
         while(counter.compare(this) == -1){
@@ -156,25 +156,25 @@ class Vector{
 }
 
 
-(window as any).devtoolsFormatters = [
-    {
-        header: function(obj, config){
-            if(!(obj instanceof Vector)){
-                return null
-            }
+// (window as any).devtoolsFormatters = [
+//     {
+//         header: function(obj, config){
+//             if(!(obj instanceof Vector)){
+//                 return null
+//             }
 
-            if((obj.vals.length == 2)){
-                return ["div",{style:""}, `x:${obj.x} y:${obj.y}`]
-            }
+//             if((obj.vals.length == 2)){
+//                 return ["div",{style:""}, `x:${obj.x} y:${obj.y}`]
+//             }
 
-            if((obj.vals.length == 3)){
-                return ["div",{style:""}, `x:${obj.x} y:${obj.y} z:${obj.z}`]
-            }
+//             if((obj.vals.length == 3)){
+//                 return ["div",{style:""}, `x:${obj.x} y:${obj.y} z:${obj.z}`]
+//             }
             
-        },
+//         },
 
-        hasBody: function(obj){
-            return false
-        },
-    }
-]
+//         hasBody: function(obj){
+//             return false
+//         },
+//     }
+// ]
