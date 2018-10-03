@@ -15,6 +15,10 @@ class Vector{
     mul(v:Vector):Vector{
         return this.map((arr,i) => arr[i] *= v.vals[i])
     }
+	
+    div(v:Vector):Vector{
+        return this.map((arr,i) => arr[i] /= v.vals[i])
+    }
 
     add(v:Vector):Vector{
         return this.map((arr,i) => arr[i] += v.vals[i])
