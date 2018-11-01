@@ -153,6 +153,26 @@ class Vector{
         x.vals = vals
         return x
     }
+
+    loop2d(callback: (v: Vector) => void):void{
+        var counter = new Vector(0,0)
+        for(; counter.x < this.x; counter.x++){
+            for(; counter.y < this.y; counter.y++){
+                callback(counter)
+            }   
+        }
+    }
+
+    loop3d(callback: (v: Vector) => void):void{
+        var counter = new Vector(0,0,0)
+        for(; counter.x < this.x; counter.x++){
+            for(; counter.y < this.y; counter.y++){
+                for(; counter.z < this.z; counter.z++){
+                    callback(counter)
+                }
+            }   
+        }
+    }
 }
 
 
