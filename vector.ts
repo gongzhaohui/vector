@@ -160,8 +160,8 @@ class Vector{
 
     loop2d(callback: (v: Vector) => void):void{
         var counter = new Vector(0,0)
-        for(; counter.x < this.x; counter.x++){
-            for(; counter.y < this.y; counter.y++){
+        for(counter.x = 0; counter.x < this.x; counter.x++){
+            for(counter.y = 0; counter.y < this.y; counter.y++){
                 callback(counter)
             }   
         }
@@ -169,9 +169,9 @@ class Vector{
 
     loop3d(callback: (v: Vector) => void):void{
         var counter = new Vector(0,0,0)
-        for(; counter.x < this.x; counter.x++){
-            for(; counter.y < this.y; counter.y++){
-                for(; counter.z < this.z; counter.z++){
+        for(counter.x = 0; counter.x < this.x; counter.x++){
+            for(counter.y = 0; counter.y < this.y; counter.y++){
+                for(counter.z = 0; counter.z < this.z; counter.z++){
                     callback(counter)
                 }
             }   
